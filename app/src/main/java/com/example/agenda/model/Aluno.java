@@ -17,9 +17,7 @@ public class Aluno implements Serializable {
         this.email = email;
     }
 
-    public Aluno() {
-
-    }
+    public Aluno() {}
 
     public String getNome() {
         return nome;

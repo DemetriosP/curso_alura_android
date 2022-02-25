@@ -1,5 +1,7 @@
 package com.example.agenda.ui.activity;
 
+import static com.example.agenda.ui.activity.ConstantesActivities.CHAVE_ALUNO;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -27,7 +29,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
         setTitle(TITULO_APPBAR);
         configurarFabNovoAluno();
-
     }
 
     @Override
@@ -39,26 +40,36 @@ public class ListaAlunosActivity extends AppCompatActivity {
     private void configuraLista() {
         ListView alunosLista = findViewById(R.id.activity_lista_alunos_listview);
         final List<Aluno> alunos = dao.todos();
+        configuraAdapter(alunosLista, alunos);
+        configuraListenerCliqueItem(alunosLista);
+    }
 
+    private void configuraListenerCliqueItem(ListView alunosLista) {
+        alunosLista.setOnItemClickListener((adapterView, view, posicao, id) -> {
+            Aluno alunoEscolhido = (Aluno) adapterView.getItemAtPosition(posicao);
+            abreFormularioModoEditaAluno(alunoEscolhido);
+        });
+    }
+
+    private void abreFormularioModoEditaAluno(Aluno aluno) {
+        Intent goToFormActivity = new Intent(ListaAlunosActivity.this,
+                FormularioAlunoActivity.class);
+        goToFormActivity.putExtra(CHAVE_ALUNO, aluno);
+        startActivity(goToFormActivity);
+    }
+
+    private void configuraAdapter(ListView alunosLista, List<Aluno> alunos) {
         alunosLista.setAdapter(new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, alunos));
-
-        alunosLista.setOnItemClickListener((adapterView, view, posicao, id) -> {
-            Aluno alunoEscolhido = alunos.get(posicao);
-            Intent goToFormActivity = new Intent(ListaAlunosActivity.this,
-                    FormularioAlunoActivity.class);
-            goToFormActivity.putExtra("aluno", alunoEscolhido);
-            startActivity(goToFormActivity);
-        });
     }
 
     private void configurarFabNovoAluno() {
         FloatingActionButton botaoNovoAluno =
                 findViewById(R.id.activity_lista_alunos_fab_novo_aluno);
-        abrirFormularioAlunoActivity(botaoNovoAluno);
+        abrirFormularioModoInsereAluno(botaoNovoAluno);
     }
 
-    private void abrirFormularioAlunoActivity(FloatingActionButton botaoNovoAluno) {
+    private void abrirFormularioModoInsereAluno(FloatingActionButton botaoNovoAluno) {
         botaoNovoAluno.setOnClickListener(view -> startActivity(new
                 Intent(ListaAlunosActivity.this, FormularioAlunoActivity.class)));
     }
