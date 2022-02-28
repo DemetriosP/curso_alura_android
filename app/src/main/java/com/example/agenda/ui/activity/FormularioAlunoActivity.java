@@ -52,9 +52,7 @@ public class FormularioAlunoActivity extends AppCompatActivity {
 
     private void configuraBotaoSalvar() {
         Button botaoSalvar = findViewById(R.id.activity_formulario_aluno_botao_salvar);
-        botaoSalvar.setOnClickListener(view -> {
-            finalizaFormulario();
-        });
+        botaoSalvar.setOnClickListener(view -> finalizaFormulario());
     }
 
     private void finalizaFormulario() {
