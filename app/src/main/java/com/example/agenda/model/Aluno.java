@@ -17,7 +17,8 @@ public class Aluno implements Serializable {
         this.email = email;
     }
 
-    public Aluno() {}
+    public Aluno() {
+    }
 
     public String getNome() {
         return nome;
@@ -46,12 +47,10 @@ public class Aluno implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return nome;
+        return nome + " - " + telefone;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
     public int getId() {
         return id;
