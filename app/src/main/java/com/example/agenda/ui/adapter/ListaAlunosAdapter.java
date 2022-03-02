@@ -41,26 +41,33 @@ public class ListaAlunosAdapter extends BaseAdapter {
     @SuppressLint("ViewHolder")
     @Override
     public View getView(int posicao, View view, ViewGroup viewGroup) {
-        View viemCriada = LayoutInflater
+        View viewCriada = criaView(viewGroup);
+        Aluno alunoDevolvido = alunos.get(posicao);
+        vinculaInfo(viewCriada, alunoDevolvido);
+        return viewCriada;
+    }
+
+    private void vinculaInfo(View view, Aluno aluno) {
+        TextView nomeAluno = view.findViewById(R.id.item_aluno_nome);
+        TextView telefoneAluno = view.findViewById(R.id.item_aluno_telefone);
+        nomeAluno.setText(aluno.getNome());
+        telefoneAluno.setText(aluno.getTelefone());
+    }
+
+    private View criaView(ViewGroup viewGroup) {
+        return LayoutInflater
                 .from(context)
                 .inflate(R.layout.item_aluno, viewGroup, false);
-        Aluno alunoDevolvido = alunos.get(posicao);
-        TextView nomeAluno = viemCriada.findViewById(R.id.item_aluno_nome);
-        TextView telefoneAluno = viemCriada.findViewById(R.id.item_aluno_telefone);
-        nomeAluno.setText(alunoDevolvido.getNome());
-        telefoneAluno.setText(alunoDevolvido.getTelefone());
-        return viemCriada;
-    }
-
-    public void clear() {
-        alunos.clear();
-    }
-
-    public void addAll(List<Aluno> alunos) {
-        this.alunos.addAll(alunos);
     }
 
     public void remove(Aluno aluno) {
         alunos.remove(aluno);
+        notifyDataSetChanged();
+    }
+
+    public void atualiza(List<Aluno> alunos) {
+        this.alunos.clear();
+        this.alunos.addAll(alunos);
+        notifyDataSetChanged();
     }
 }
